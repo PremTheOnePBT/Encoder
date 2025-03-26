@@ -13,6 +13,8 @@ import math
 import re
 import shutil
 import signal
+import os
+import subprocess
 import logging
 from .function import hbs, info
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message, CallbackQuery
@@ -22,6 +24,19 @@ from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
 import subprocess
 from subprocess import Popen, PIPE
+
+
+
+async def download_logo():
+    """Automatically downloads the logo before encoding"""
+    logo_path = "logo.png"
+    logo_url = "https://telegra.ph/file/7d6d3298f8f1c23ed748b.png"
+
+    if not os.path.exists(logo_path):  # Avoid duplicate downloads
+        subprocess.run(["wget", "-O", logo_path, logo_url])
+
+    return logo_path
+
 
 logz = 5121002601
 
